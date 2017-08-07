@@ -29,6 +29,7 @@
 #include "arm/96boards.h"
 #include "arm/de_nano_soc.h"
 #include "arm/banana.h"
+#include "arm/opizero.h"
 #include "arm/beaglebone.h"
 #include "arm/phyboard.h"
 #include "arm/raspberry_pi.h"
@@ -69,6 +70,12 @@ mraa_arm_platform()
                                                   "Banana Pi")) {
                         platform_type = MRAA_BANANA;
                     }
+                 } else if (strstr(line, "sun8i")) {
+                    if (mraa_file_contains("/proc/device-tree/model", "Orange Pi Zero")) {
+                        platform_type = MRAA_OPIZ;
+                  /*  } else if (mraa_file_contains("/proc/device-tree/model",
+                                                  "Banana Pi")) {
+                        platform_type = MRAA_BANANA;*/
                     // For old kernels
                     else if (mraa_file_exist("/sys/class/leds/green:ph24:led1")) {
                         platform_type = MRAA_BANANA;
@@ -108,6 +115,9 @@ mraa_arm_platform()
             break;
         case MRAA_BANANA:
             plat = mraa_banana();
+            break;
+        case MRAA_OPIZ:
+            plat = mraa_opiz();
             break;
         case MRAA_96BOARDS:
             plat = mraa_96boards();
